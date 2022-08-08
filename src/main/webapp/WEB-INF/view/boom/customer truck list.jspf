@@ -1,0 +1,16 @@
+<div>
+    <h4 class="d-flex justify-content-center"><b>Apply for a boom truck</b></h4>
+
+    <div id="enable">
+        <p>Enable your location to find nearest truck
+            <button class="btn btn-info" onclick="enableLocation()">
+                <i class="fa fa-map-marker-alt"></i></button>
+        </p>
+
+    </div>
+
+    <div id="trucks">
+        <%@ include file="truck list.jspf" %>
+    </div>
+
+</div>

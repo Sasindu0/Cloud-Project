@@ -1,0 +1,101 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--@elvariable id="sessions" type="java.util.List<com.ves.entity.BoomBoomingSession>"--%>
+<%--@elvariable id="login" type="com.ves.entity.Account"--%>
+<c:choose>
+    <c:when test="${sessions.size() > 0}">
+        <div class="table-responsive-sm">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Time</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody >
+                <c:forEach items="${sessions}" var="session" varStatus="i">
+                    <tr>
+                        <td>${i.index + 1}</td>
+
+                        <c:choose>
+                            <%--Customer--%>
+                            <c:when test="${session.customerId == login.registerId}">
+                                <td>${session.truck.driver.name}</td>
+                                <td>${session.time}</td>
+                                <td>
+                                        ${session.truck.driver.mobileNumber}
+                                    <a href="tel:${session.truck.driver.mobileNumber}"
+                                       class="btn btn-info float-end">
+                                        <i class="fa fa-phone"></i>
+                                    </a>
+                                </td>
+                                <td class="d-flex justify-content-center">
+                                    <button class="btn btn-info mx-1" onclick="details(${session.sessionId})">
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                    <c:if test="${session.ongoing}">
+                                        <button class="btn btn-light mx-1" onclick="track(${session.sessionId})">
+                                            <i class="fa fa-map-marker"></i>
+                                        </button>
+                                        <button class="btn btn-success mx-1" onclick="complete(${session.sessionId})">
+                                            <i class="fa fa-check-double"></i>
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${!session.accepted && !session.expired}">
+                                        <button class="btn btn-danger mx-1" onclick="cancel(${session.sessionId})">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </c:if>
+
+                                </td>
+                            </c:when>
+                            <%--Driver--%>
+                            <c:otherwise>
+                                <td>${session.customer.name}</td>
+                                <td>${session.time}</td>
+                                <td>
+                                        ${session.customer.mobileNumber}
+                                    <a href="tel:${session.customer.mobileNumber}"
+                                       class="btn btn-info">
+                                        <i class="fa fa-phone"></i>
+                                    </a>
+                                </td>
+                                <td class="d-flex justify-content-center">
+                                    <button class="btn btn-info mx-1" onclick="details(${session.sessionId})">
+                                        <i class="fa fa-info"></i>
+                                    </button>
+
+                                    <c:if test="${session.ongoing}">
+                                        <button class="btn btn-light mx-1" onclick="track(${session.sessionId})">
+                                            <i class="fa fa-map-marker"></i>
+                                        </button>
+                                        <button class="btn btn-success mx-1" onclick="complete(${session.sessionId})">
+                                            <i class="fa fa-check-double"></i>
+                                        </button>
+
+                                    </c:if>
+                                    <c:if test="${!session.accepted && !session.expired}">
+                                        <button class="btn btn-success mx-1" onclick="approve(${session.sessionId})">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                        <button class="btn btn-danger mx-1" onclick="cancel(${session.sessionId})">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </c:if>
+
+                                </td>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+                </c:forEach>
+                </tbody>
+
+            </table>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <p>There are no booming sessions under this category</p>
+    </c:otherwise>
+</c:choose>

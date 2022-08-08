@@ -1,0 +1,11 @@
+<%--@elvariable id="user" type="with.u.entity.User"--%>
+<div class="card mb-3" id="profile-settings">
+
+    <c:choose>
+        <c:when test="${user.type == 1}">
+            <%@ include file="settings/councilor.jspf" %>
+        </c:when>
+    </c:choose>
+
+
+</div>
